@@ -1,0 +1,229 @@
+        :root {
+            --bg-color: #1a1a1a;
+            --menu-bg-color: #2a2a2a;
+            --text-color: #f0f0f0;
+            --text-color-reversed: #000000;
+            --subtext-color: black;
+            --text-hover-color: #b1b1b1;
+            --header-color: #f0f0f0;
+            --secondary-color: #2a2a2a;
+            --hover-bg-color: #444;
+            --topbox-color: rgb(31, 31, 31);
+            --dropdown-color: rgb(32, 32, 32);
+            --search-color: rgb(236, 236, 236);
+            --logo-dark: block;
+            --logo-light: none;
+            --topbox-background: #2a2a2a;
+            --topbox-overlay: rgba(0, 0, 0, 0.2);
+            --topbox-text-color: var(--text-color);
+            --topbox-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* General styles */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Header styles */
+        header {
+            background-color: var(--menu-bg-color);
+            padding: 20px 0;
+            text-align: center;
+            color: var(--header-color);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        header p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        header .language-buttons {
+            margin-top: 10px;
+        }
+
+        header button {
+            background-color: var(--header-color);
+            color: var(--text-color-reversed);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header button:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        /* Main content area */
+        main {
+            padding: 20px;
+        }
+
+        #ascii-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #ascii-table th, #ascii-table td {
+            padding: 10px 13px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        #ascii-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        #ascii-table td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        #ascii-table tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+
+        #ascii-table tr:hover td {
+            background-color: #e1f7d5;
+        }
+
+        #ascii-table th, #ascii-table td {
+            transition: background-color 0.3s ease;
+        }
+
+        #ascii-table td {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+        }
+
+        #ascii-table td:first-child {
+            font-weight: bold;
+        }
+
+        #ascii-table caption {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            color: #333;
+            background-color: #4CAF50;
+            text-align: left;
+            border-top: 3px solid #4CAF50;
+            border-bottom: 3px solid #4CAF50;
+        }
+
+
+        section {
+            padding: 20px;
+            background-color: var(--topbox-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: var(--topbox-shadow);
+        }
+
+        section h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        section p {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        section button {
+            background-color: var(--header-color);
+            color: var(--text-color-reversed);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        section button:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        /* Quiz section */
+        .quiz input {
+            padding: 10px;
+            width: 100%;
+            font-size: 1.1em;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .quiz button {
+            background-color: var(--header-color);
+            color: var(--text-color-reversed);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz button:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        .quiz #quizFeedback {
+            font-size: 1.2em;
+            color: green;
+            margin-top: 10px;
+        }
+
+        .quiz #quizFeedback.error {
+            color: red;
+        }
+        #homeButton {
+            position: fixed;
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Perfectly center the button */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px; /* Adjust padding for a cleaner look */
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+            width: auto; /* Make the width auto so the button adapts to text */
+        }
+
+        #homeButton:hover {
+            background-color: #45a049;
+            transform: translateX(-50%) scale(1.05); /* Slightly grow the button on hover */
+        }
+
+        #homeButton:active {
+            transform: translateX(-50%) scale(1); /* Maintain button size on click */
+        }
