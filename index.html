@@ -7,22 +7,22 @@
     <title>Binärumwandlung lernen</title>
     <style>
         :root {
-            --bg-color: #000;
-            --menu-bg-color: rgba(0, 0, 0, 0.8);
-            --text-color: #fff;
-            --text-color-reversed: #000;
-            --subtext-color: #ccc;
-            --text-hover-color: #fff;
-            --header-color: #fff;
-            --secondary-color: #111;
+            --bg-color: #1a1a1a;
+            --menu-bg-color: #2a2a2a;
+            --text-color: #f0f0f0;
+            --text-color-reversed: #000000;
+            --subtext-color: black;
+            --text-hover-color: #b1b1b1;
+            --header-color: #f0f0f0;
+            --secondary-color: #2a2a2a;
             --hover-bg-color: #444;
-            --topbox-color: #111;
-            --dropdown-color: #111;
-            --search-color: #ccc;
+            --topbox-color: rgb(31, 31, 31);
+            --dropdown-color: rgb(32, 32, 32);
+            --search-color: rgb(236, 236, 236);
             --logo-dark: block;
             --logo-light: none;
-            --topbox-background: #111;
-            --topbox-overlay: rgba(0, 0, 0, 0.1);
+            --topbox-background: #2a2a2a;
+            --topbox-overlay: rgba(0, 0, 0, 0.2);
             --topbox-text-color: var(--text-color);
             --topbox-shadow: rgba(0, 0, 0, 0.3);
         }
@@ -31,12 +31,10 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'SF Pro Display', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            transition: all 0.3s ease-in-out;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* Header styles */
@@ -45,7 +43,6 @@
             padding: 20px 0;
             text-align: center;
             color: var(--header-color);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
@@ -92,8 +89,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        #ascii-table th,
-        #ascii-table td {
+        #ascii-table th, #ascii-table td {
             padding: 10px 13px;
             text-align: center;
             border: 1px solid #ddd;
@@ -118,8 +114,7 @@
             background-color: #e1f7d5;
         }
 
-        #ascii-table th,
-        #ascii-table td {
+        #ascii-table th, #ascii-table td {
             transition: background-color 0.3s ease;
         }
 
@@ -142,6 +137,7 @@
             border-top: 3px solid #4CAF50;
             border-bottom: 3px solid #4CAF50;
         }
+
 
         section {
             padding: 20px;
@@ -212,18 +208,14 @@
         .quiz #quizFeedback.error {
             color: red;
         }
-
         #homeButton {
             position: fixed;
-            left: 50%;
-            /* Center horizontally */
-            transform: translateX(-50%);
-            /* Perfectly center the button */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Perfectly center the button */
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 15px 30px;
-            /* Adjust padding for a cleaner look */
+            padding: 15px 30px; /* Adjust padding for a cleaner look */
             font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
@@ -231,21 +223,17 @@
             text-align: center;
             display: inline-block;
             text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            /* Smooth transition */
-            width: auto;
-            /* Make the width auto so the button adapts to text */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+            width: auto; /* Make the width auto so the button adapts to text */
         }
 
         #homeButton:hover {
             background-color: #45a049;
-            transform: translateX(-50%) scale(1.05);
-            /* Slightly grow the button on hover */
+            transform: translateX(-50%) scale(1.05); /* Slightly grow the button on hover */
         }
 
         #homeButton:active {
-            transform: translateX(-50%) scale(1);
-            /* Maintain button size on click */
+            transform: translateX(-50%) scale(1); /* Maintain button size on click */
         }
     </style>
 </head>
