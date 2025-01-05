@@ -34,7 +34,6 @@
     <link rel="canonical" href="https://wfxey.github.io/learnbinary/">
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" href="styles.css">
-    <script="text/css" src="styles.css.js"></script>
 </head>
 <body>
 
@@ -43,12 +42,13 @@
         <p id="description">Erlerne, wie man ASCII-Zeichen in Binärzahlen umwandelt, und teste dein Wissen mit einem
             Quiz!
         </p>
-            <button type="button" onclick="setLanguage('de')">Deutsch</button>
-            <button type="button" onclick="setLanguage('en')">English</button>
-            <button type="button" onclick="setLanguage('nl')">Nederlands</button>
-            <button type="button" onclick="setLanguage('fr')">Français</button>
-            <button type="button" onclick="setLanguage('pt')">Português</button>
-            <button type="button" onclick="setLanguage('es')">Español</button>
+        <div class="language-buttons">
+            <button onclick="setLanguage('de')">Deutsch</button>
+            <button onclick="setLanguage('en')">English</button>
+            <button onclick="setLanguage('nl')">Nederlands</button>
+            <button onclick="setLanguage('fr')">Français</button>
+            <button onclick="setLanguage('pt')">Português</button>
+            <button onclick="setLanguage('es')">Español</button>
         </div>
     </header>
 
@@ -538,10 +538,10 @@
             <section class="quiz">
                 <h2 id="quiz-title">Quiz: Wandle ASCII in Binär um</h2>
                 <p id="quiz-question">Was ist die Binärdarstellung des Buchstabens "B"?</p>
-                <button type="button" onclick="checkAnswer()" id="quiz-btn">Antwort überprüfen</button>
+                <input type="text" id="quizAnswer" placeholder="Gib deine Antwort ein">
                 <button onclick="checkAnswer()" id="quiz-btn">Antwort überprüfen</button>
                 <div id="quizFeedback"></div>
-            <button type="button" onclick="nextPage(6)" class="hidden" id="nextQuiz">Weiter</button>
+            </section>
             <button onclick="nextPage(6)" style="display: none;" id="nextQuiz">Weiter</button>
         </div>
         <div id="page6" style="display: none;">
@@ -615,6 +615,10 @@
             </section>
         </div>
     </main>
+    <a href="/aktuell">
+        <button id="homeButton">Go to Homepage</button>
+    </a>
+
     <script>
         let currentPage = 1;
         const languageData = {
