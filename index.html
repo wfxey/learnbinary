@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binärumwandlung lernen</title>
+    <style>
+        :root {
+            --bg-color: #000;
+            --menu-bg-color: rgba(0, 0, 0, 0.8);
+            --text-color: #fff;
+            --text-color-reversed: #000;
+            --subtext-color: #ccc;
+            --text-hover-color: #fff;
+            --header-color: #fff;
+            --secondary-color: #111;
+            --hover-bg-color: #444;
+            --topbox-color: #111;
+            --dropdown-color: #111;
+            --search-color: #ccc;
+            --logo-dark: block;
+            --logo-light: none;
+            --topbox-background: #111;
+            --topbox-overlay: rgba(0, 0, 0, 0.1);
+            --topbox-text-color: var(--text-color);
+            --topbox-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* General styles */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'SF Pro Display', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Header styles */
+        header {
+            background-color: var(--menu-bg-color);
+            padding: 20px 0;
+            text-align: center;
+            color: var(--header-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        header p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        header .language-buttons {
+            margin-top: 10px;
+        }
+
+        header button {
+            background-color: var(--header-color);
+            color: var(--text-color-reversed);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header button:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        /* Main content area */
+        main {
+            padding: 20px;
+        }
+
+        #ascii-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #ascii-table th,
+        #ascii-table td {
+            padding: 10px 13px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        #ascii-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        #ascii-table td {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        #ascii-table tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+
+        #ascii-table tr:hover td {
+            background-color: #e1f7d5;
+        }
+
+        #ascii-table th,
+        #ascii-table td {
+            transition: background-color 0.3s ease;
+        }
+
+        #ascii-table td {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+        }
+
+        #ascii-table td:first-child {
+            font-weight: bold;
+        }
+
+        #ascii-table caption {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            color: #333;
+            background-color: #4CAF50;
+            text-align: left;
+            border-top: 3px solid #4CAF50;
+            border-bottom: 3px solid #4CAF50;
+        }
+
+        section {
+            padding: 20px;
+            background-color: var(--topbox-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: var(--topbox-shadow);
+        }
+
+        section h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        section p {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        section button {
+            background-color: var(--header-color);
+            color: var(--text-color-reversed);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        section button:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        /* Quiz section */
+        .quiz input {
+            padding: 10px;
+            width: 100%;
+            font-size: 1.1em;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .quiz button {
+            background-color: var(--header-color);
+            color: var(--text-color-reversed);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz button:hover {
+            background-color: var(--hover-bg-color);
+        }
+
+        .quiz #quizFeedback {
+            font-size: 1.2em;
+            color: green;
+            margin-top: 10px;
+        }
+
+        .quiz #quizFeedback.error {
+            color: red;
+        }
+
+        #homeButton {
+            position: fixed;
+            left: 50%;
+            /* Center horizontally */
+            transform: translateX(-50%);
+            /* Perfectly center the button */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            /* Adjust padding for a cleaner look */
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            /* Smooth transition */
+            width: auto;
+            /* Make the width auto so the button adapts to text */
+        }
+
+        #homeButton:hover {
+            background-color: #45a049;
+            transform: translateX(-50%) scale(1.05);
+            /* Slightly grow the button on hover */
+        }
+
+        #homeButton:active {
+            transform: translateX(-50%) scale(1);
+            /* Maintain button size on click */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1 id="title">Binärumwandlung lernen</h1>
+        <p id="description">Erlerne, wie man ASCII-Zeichen in Binärzahlen umwandelt, und teste dein Wissen mit einem
+            Quiz!
+        </p>
+        <div class="language-buttons">
+            <button onclick="setLanguage('de')">Deutsch</button>
+            <button onclick="setLanguage('en')">English</button>
+            <button onclick="setLanguage('nl')">Nederlands</button>
+            <button onclick="setLanguage('fr')">Français</button>
+            <button onclick="setLanguage('pt')">Português</button>
+            <button onclick="setLanguage('es')">Español</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="page1">
+            <section class="tutorial">
+                <h2 id="page1-title">Was ist ASCII?</h2>
+                <p id="page1-text">ASCII steht für "American Standard Code for Information Interchange". Es ist ein
+                    Zeichencode,
+                    der Zahlen, Buchstaben und Symbole durch numerische Werte darstellt. Jeder Buchstabe und jedes
+                    Zeichen hat
+                    eine eindeutige Zahl, die in binäre Form umgewandelt werden kann.</p>
+                <button onclick="nextPage(2)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page2" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page2-title">Wie konvertiert man ASCII in Binär?</h2>
+                <p id="page2-text">Jedes Zeichen im ASCII-Zeichensatz hat einen zugehörigen Dezimalwert. Um diesen Wert
+                    in Binär
+                    umzuwandeln, teilt man die Zahl wiederholt durch 2 und notiert sich die Reste. Am Ende liest man die
+                    Reste
+                    von unten nach oben, um die Binärzahl zu erhalten.</p>
+                <div class="tutorial-example">
+                    <h3 id="example-title">Beispiel: "A" in Binär umwandeln</h3>
+                    <p id="example-text">Der ASCII-Wert von "A" ist 65. Um diesen in Binär umzuwandeln, gehen wir
+                        folgendermaßen
+                        vor:</p>
+                    <ul>
+                        <li>65 ÷ 2 = 32 Rest 1</li>
+                        <li>32 ÷ 2 = 16 Rest 0</li>
+                        <li>16 ÷ 2 = 8 Rest 0</li>
+                        <li>8 ÷ 2 = 4 Rest 0</li>
+                        <li>4 ÷ 2 = 2 Rest 0</li>
+                        <li>2 ÷ 2 = 1 Rest 0</li>
+                        <li>1 ÷ 2 = 0 Rest 1</li>
+                    </ul>
+                    <p id="binary-result">Wenn wir die Reste von unten nach oben lesen, erhalten wir:
+                        <strong>01000001</strong>
+                    </p>
+                </div>
+                <button onclick="nextPage(3)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page3" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page3-title">ASCII-Tabelle</h2>
+                <p id="page3-desc">Hier ist eine ASCII-Tabelle, die die Zeichen, ihre Dezimalwerte und die
+                    entsprechenden
+                    Binärwerte zeigt:</p>
+                <table id="ascii-table" border="1">
+                    <thead>
+                        <tr>
+                            <th id="symbol">Zeichen</th>
+                            <th id="decimal">Dezimalwert</th>
+                            <th id="binary">Binärwert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>65</td>
+                            <td>01000001</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>66</td>
+                            <td>01000010</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>67</td>
+                            <td>01000011</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>68</td>
+                            <td>01000100</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>69</td>
+                            <td>01000101</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>70</td>
+                            <td>01000110</td>
+                        </tr>
+                        <tr>
+                            <td>G</td>
+                            <td>71</td>
+                            <td>01000111</td>
+                        </tr>
+                        <tr>
+                            <td>H</td>
+                            <td>72</td>
+                            <td>01001000</td>
+                        </tr>
+                        <tr>
+                            <td>I</td>
+                            <td>73</td>
+                            <td>01001001</td>
+                        </tr>
+                        <tr>
+                            <td>J</td>
+                            <td>74</td>
+                            <td>01001010</td>
+                        </tr>
+                        <tr>
+                            <td>K</td>
+                            <td>75</td>
+                            <td>01001011</td>
+                        </tr>
+                        <tr>
+                            <td>L</td>
+                            <td>76</td>
+                            <td>01001100</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>77</td>
+                            <td>01001101</td>
+                        </tr>
+                        <tr>
+                            <td>N</td>
+                            <td>78</td>
+                            <td>01001110</td>
+                        </tr>
+                        <tr>
+                            <td>O</td>
+                            <td>79</td>
+                            <td>01001111</td>
+                        </tr>
+                        <tr>
+                            <td>P</td>
+                            <td>80</td>
+                            <td>01010000</td>
+                        </tr>
+                        <tr>
+                            <td>Q</td>
+                            <td>81</td>
+                            <td>01010001</td>
+                        </tr>
+                        <tr>
+                            <td>R</td>
+                            <td>82</td>
+                            <td>01010010</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>83</td>
+                            <td>01010011</td>
+                        </tr>
+                        <tr>
+                            <td>T</td>
+                            <td>84</td>
+                            <td>01010100</td>
+                        </tr>
+                        <tr>
+                            <td>U</td>
+                            <td>85</td>
+                            <td>01010101</td>
+                        </tr>
+                        <tr>
+                            <td>V</td>
+                            <td>86</td>
+                            <td>01010110</td>
+                        </tr>
+                        <tr>
+                            <td>W</td>
+                            <td>87</td>
+                            <td>01010111</td>
+                        </tr>
+                        <tr>
+                            <td>X</td>
+                            <td>88</td>
+                            <td>01011000</td>
+                        </tr>
+                        <tr>
+                            <td>Y</td>
+                            <td>89</td>
+                            <td>01011001</td>
+                        </tr>
+                        <tr>
+                            <td>Z</td>
+                            <td>90</td>
+                            <td>01011010</td>
+                        </tr>
+                        <tr>
+                            <td>a</td>
+                            <td>97</td>
+                            <td>01100001</td>
+                        </tr>
+                        <tr>
+                            <td>b</td>
+                            <td>98</td>
+                            <td>01100010</td>
+                        </tr>
+                        <tr>
+                            <td>c</td>
+                            <td>99</td>
+                            <td>01100011</td>
+                        </tr>
+                        <tr>
+                            <td>d</td>
+                            <td>100</td>
+                            <td>01100100</td>
+                        </tr>
+                        <tr>
+                            <td>e</td>
+                            <td>101</td>
+                            <td>01100101</td>
+                        </tr>
+                        <tr>
+                            <td>f</td>
+                            <td>102</td>
+                            <td>01100110</td>
+                        </tr>
+                        <tr>
+                            <td>g</td>
+                            <td>103</td>
+                            <td>01100111</td>
+                        </tr>
+                        <tr>
+                            <td>h</td>
+                            <td>104</td>
+                            <td>01101000</td>
+                        </tr>
+                        <tr>
+                            <td>i</td>
+                            <td>105</td>
+                            <td>01101001</td>
+                        </tr>
+                        <tr>
+                            <td>j</td>
+                            <td>106</td>
+                            <td>01101010</td>
+                        </tr>
+                        <tr>
+                            <td>k</td>
+                            <td>107</td>
+                            <td>01101011</td>
+                        </tr>
+                        <tr>
+                            <td>l</td>
+                            <td>108</td>
+                            <td>01101100</td>
+                        </tr>
+                        <tr>
+                            <td>m</td>
+                            <td>109</td>
+                            <td>01101101</td>
+                        </tr>
+                        <tr>
+                            <td>n</td>
+                            <td>110</td>
+                            <td>01101110</td>
+                        </tr>
+                        <tr>
+                            <td>o</td>
+                            <td>111</td>
+                            <td>01101111</td>
+                        </tr>
+                        <tr>
+                            <td>p</td>
+                            <td>112</td>
+                            <td>01110000</td>
+                        </tr>
+                        <tr>
+                            <td>q</td>
+                            <td>113</td>
+                            <td>01110001</td>
+                        </tr>
+                        <tr>
+                            <td>r</td>
+                            <td>114</td>
+                            <td>01110010</td>
+                        </tr>
+                        <tr>
+                            <td>s</td>
+                            <td>115</td>
+                            <td>01110011</td>
+                        </tr>
+                        <tr>
+                            <td>t</td>
+                            <td>116</td>
+                            <td>01110100</td>
+                        </tr>
+                        <tr>
+                            <td>u</td>
+                            <td>117</td>
+                            <td>01110101</td>
+                        </tr>
+                        <tr>
+                            <td>v</td>
+                            <td>118</td>
+                            <td>01110110</td>
+                        </tr>
+                        <tr>
+                            <td>w</td>
+                            <td>119</td>
+                            <td>01110111</td>
+                        </tr>
+                        <tr>
+                            <td>x</td>
+                            <td>120</td>
+                            <td>01111000</td>
+                        </tr>
+                        <tr>
+                            <td>y</td>
+                            <td>121</td>
+                            <td>01111001</td>
+                        </tr>
+                        <tr>
+                            <td>z</td>
+                            <td>122</td>
+                            <td>01111010</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>49</td>
+                            <td>00110001</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>50</td>
+                            <td>00110010</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>51</td>
+                            <td>00110011</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>52</td>
+                            <td>00110100</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>53</td>
+                            <td>00110101</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>54</td>
+                            <td>00110110</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>55</td>
+                            <td>00110111</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>56</td>
+                            <td>00111000</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>57</td>
+                            <td>00111001</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>48</td>
+                            <td>00110000</td>
+                        </tr>
+                        <tr>
+                            <td>&#64;</td>
+                            <td>64</td>
+                            <td>01000000</td>
+                        </tr>
+                        <tr>
+                            <td>#</td>
+                            <td>35</td>
+                            <td>00100011</td>
+                        </tr>
+                        <tr>
+                            <td>!</td>
+                            <td>33</td>
+                            <td>00100001</td>
+                        </tr>
+                        <tr>
+                            <td>$</td>
+                            <td>36</td>
+                            <td>00100100</td>
+                        </tr>
+                        <tr>
+                            <td>%</td>
+                            <td>37</td>
+                            <td>00100101</td>
+                        </tr>
+                        <tr>
+                            <td>&</td>
+                            <td>38</td>
+                            <td>00100110</td>
+                        </tr>
+                        <tr>
+                            <td>'</td>
+                            <td>39</td>
+                            <td>00100111</td>
+                        </tr>
+                        <tr>
+                            <td>(</td>
+                            <td>40</td>
+                            <td>00101000</td>
+                        </tr>
+                        <tr>
+                            <td>)</td>
+                            <td>41</td>
+                            <td>00101001</td>
+                        </tr>
+                        <tr>
+                            <td>*</td>
+                            <td>42</td>
+                            <td>00101010</td>
+                        </tr>
+                        <tr>
+                            <td>+</td>
+                            <td>43</td>
+                            <td>00101011</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>45</td>
+                            <td>00101101</td>
+                        </tr>
+                        <tr>
+                            <td>=</td>
+                            <td>61</td>
+                            <td>00111101</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td>32</td>
+                            <td>00100000</td>
+                        </tr>
+                        <tr>
+                            <td>,</td>
+                            <td>44</td>
+                            <td>00101100</td>
+                        </tr>
+                        <tr>
+                            <td>.</td>
+                            <td>46</td>
+                            <td>00101110</td>
+                        </tr>
+                        <tr>
+                            <td>;</td>
+                            <td>59</td>
+                            <td>00111011</td>
+                        </tr>
+                        <tr>
+                            <td>:</td>
+                            <td>58</td>
+                            <td>00111010</td>
+                        </tr>
+                        <tr>
+                            <td>"</td>
+                            <td>34</td>
+                            <td>00100010</td>
+                        </tr>
+                        <tr>
+                            <td>'</td>
+                            <td>39</td>
+                            <td>00100111</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button onclick="nextPage(4)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page4" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page4-title">Binärzahlen verstehen</h2>
+                <p id="page4-text">In der Binärzahl werden nur zwei Ziffern verwendet: 0 und 1. Jede dieser Ziffern wird
+                    als
+                    „Bit“ bezeichnet. Eine Gruppe von 8 Bits ergibt ein „Byte“, das in der Regel ein Zeichen darstellt.
+                    Im
+                    ASCII-Zeichensatz wird ein Byte verwendet, um ein Zeichen darzustellen.</p>
+                <button onclick="nextPage(5)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page5" style="display: none;">
+            <section class="quiz">
+                <h2 id="quiz-title">Quiz: Wandle ASCII in Binär um</h2>
+                <p id="quiz-question">Was ist die Binärdarstellung des Buchstabens "B"?</p>
+                <input type="text" id="quizAnswer" placeholder="Gib deine Antwort ein">
+                <button onclick="checkAnswer()" id="quiz-btn">Antwort überprüfen</button>
+                <div id="quizFeedback"></div>
+            </section>
+            <button onclick="nextPage(6)" style="display: none;" id="nextQuiz">Weiter</button>
+        </div>
+        <div id="page6" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page6-title">ASCII-Werte für Zahlen</h2>
+                <p id="page6-text">ASCII hat auch Werte für Zahlen zugewiesen. Zum Beispiel hat die Zahl "1" den
+                    ASCII-Wert 49.
+                    Dieser Wert wird in Binär als <strong>00110001</strong> dargestellt.</p>
+                <button onclick="nextPage(7)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page7" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page7-title">Erweiterter ASCII-Zeichensatz</h2>
+                <p id="page7-text">Der erweiterte ASCII-Zeichensatz verwendet 8 Bits, um Zeichen darzustellen, die über
+                    die 128
+                    Standardzeichen hinausgehen. Dies umfasst Akzentzeichen, Sonderzeichen und viele andere Symbole.</p>
+                <p id="extended-example">Zum Beispiel hat der Buchstabe "é" den erweiterten ASCII-Wert 233, der in Binär
+                    als
+                    <strong>11101001</strong> dargestellt wird.
+                </p>
+                <button onclick="nextPage(8)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page8" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page8-title">Fazit</h2>
+                <p id="page8-text">Du hast jetzt die Grundlagen der Binärumwandlung und des ASCII-Zeichensatzes gelernt.
+                    Übe
+                    weiter, Zeichen in Binärzahlen umzuwandeln, und versuche, andere Zeichen und Zahlen zu konvertieren!
+                </p>
+                <button onclick="finishTutorial(9)">Tutorial abschließen</button>
+            </section>
+        </div>
+        <div id="page9" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page9-title">Wähle die Anzahl der Bits</h2>
+                <p id="page9-text">Wähle aus, wie viele Bits du für die Darstellung eines Zeichens verwenden möchtest.
+                    Standardmäßig verwenden wir 8 Bits (1 Byte) für jedes Zeichen. Bei einer höheren Anzahl von Bits
+                    können mehr
+                    Zeichen oder Symbole dargestellt werden.</p>
+                <label for="bitSize">Anzahl der Bits:</label>
+                <select id="bitSize" onchange="updateBitSize()">
+                    <option value="8">8 Bits (Standard)</option>
+                    <option value="16">16 Bits</option>
+                    <option value="32">32 Bits</option>
+                    <option value="64">64 Bits</option>
+                </select>
+                <p id="bitExplanation"></p>
+                <button onclick="nextPage(10)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page10" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page10-title">Erklärung der Bitgrößen</h2>
+                <p id="page10-text">Bei 8 Bits wird ein Byte verwendet, um ein Zeichen darzustellen, was den Standard
+                    für ASCII
+                    ist. Mit mehr Bits kannst du größere Zahlen und mehr Zeichen darstellen, jedoch kann die Darstellung
+                    komplizierter werden.</p>
+                <button onclick="nextPage(11)" id="next-btn">Weiter</button>
+            </section>
+        </div>
+        <div id="page11" style="display: none;">
+            <section class="tutorial">
+                <h2 id="page11-title">Fazit</h2>
+                <p id="page11-text">Jetzt hast du auch gelernt, wie unterschiedliche Bitgrößen die Darstellung von
+                    Zeichen und
+                    Zahlen beeinflussen können. Übe, die Auswahl der richtigen Bitanzahl für verschiedene Anwendungen zu
+                    verstehen!</p>
+                <button onclick="finishTutorial()">Tutorial abschließen</button>
+            </section>
+        </div>
+    </main>
+    <a href="/aktuell">
+        <button id="homeButton">Go to Homepage</button>
+    </a>
+
+    <script>
+        let currentPage = 1;
+        const languageData = {
+            de: {
+                title: "Binärumwandlung lernen",
+                description: "Erlerne, wie man ASCII-Zeichen in Binärzahlen umwandelt, und teste dein Wissen mit einem Quiz!",
+                page1: {
+                    title: "Was ist ASCII?",
+                    text: "ASCII steht für \"American Standard Code for Information Interchange\". Es ist ein Zeichencode, der Zahlen, Buchstaben und Symbole durch numerische Werte darstellt. Jeder Buchstabe und jedes Zeichen hat eine eindeutige Zahl, die in binäre Form umgewandelt werden kann."
+                },
+                page2: {
+                    title: "Wie konvertiert man ASCII in Binär?",
+                    text: "Jedes Zeichen im ASCII-Zeichensatz hat einen zugehörigen Dezimalwert. Um diesen Wert in Binär umzuwandeln, teilt man die Zahl wiederholt durch 2 und notiert sich die Reste. Am Ende liest man die Reste von unten nach oben, um die Binärzahl zu erhalten.",
+                    example: "Beispiel: \"A\" in Binär umwandeln",
+                    binaryResult: "Wenn wir die Reste von unten nach oben lesen, erhalten wir: 01000001"
+                },
+                page3: {
+                    title: "ASCII-Tabelle",
+                    text: "Hier ist eine ASCII-Tabelle, die die Zeichen, ihre Dezimalwerte und die entsprechenden Binärwerte zeigt:",
+                    symbol: "Zeichen",
+                    decimal: "Dezimalwert",
+                    binary: "Binärwert"
+                },
+                page4: {
+                    title: "Binärzahlen verstehen",
+                    text: "In der Binärzahl werden nur zwei Ziffern verwendet: 0 und 1. Jede dieser Ziffern wird als „Bit“ bezeichnet. Eine Gruppe von 8 Bits ergibt ein „Byte“, das in der Regel ein Zeichen darstellt. Im ASCII-Zeichensatz wird ein Byte verwendet, um ein Zeichen darzustellen."
+                },
+                page5: {
+                    title: "Quiz: Wandle ASCII in Binär um",
+                    question: "Was ist die Binärdarstellung des Buchstabens \"B\"?"
+                },
+                page6: {
+                    title: "ASCII-Werte für Zahlen",
+                    text: "ASCII hat auch Werte für Zahlen zugewiesen. Zum Beispiel hat die Zahl \"1\" den ASCII-Wert 49. Dieser Wert wird in Binär als 00110001 dargestellt."
+                },
+                page7: {
+                    title: "Erweiterter ASCII-Zeichensatz",
+                    text: "Der erweiterte ASCII-Zeichensatz verwendet 8 Bits, um Zeichen darzustellen, die über die 128 Standardzeichen hinausgehen. Dies umfasst Akzentzeichen, Sonderzeichen und viele andere Symbole.",
+                    extendedExample: "Zum Beispiel hat der Buchstabe \"é\" den erweiterten ASCII-Wert 233, der in Binär als 11101001 dargestellt wird."
+                },
+                page8: {
+                    title: "Fazit",
+                    text: "Du hast jetzt die Grundlagen der Binärumwandlung und des ASCII-Zeichensatzes gelernt. Übe weiter, Zeichen in Binärzahlen umzuwandeln, und versuche, andere Zeichen und Zahlen zu konvertieren!"
+                },
+                page9: {
+                    title: "Wähle die Anzahl der Bits",
+                    text: "Wähle aus, wie viele Bits du für die Darstellung eines Zeichens verwenden möchtest. Standardmäßig verwenden wir 8 Bits (1 Byte) für jedes Zeichen. Bei einer höheren Anzahl von Bits können mehr Zeichen oder Symbole dargestellt werden."
+                },
+                page10: {
+                    title: "Erklärung der Bitgrößen",
+                    text: "Bei 8 Bits wird ein Byte verwendet, um ein Zeichen darzustellen, was den Standard für ASCII ist. Mit mehr Bits kannst du größere Zahlen und mehr Zeichen darstellen, jedoch kann die Darstellung komplizierter werden."
+                },
+                page11: {
+                    title: "Fazit",
+                    text: "Jetzt hast du auch gelernt, wie unterschiedliche Bitgrößen die Darstellung von Zeichen und Zahlen beeinflussen können. Übe, die Auswahl der richtigen Bitanzahl für verschiedene Anwendungen zu verstehen!"
+                }
+            },
+            en: {
+                title: "Learn Binary Conversion",
+                description: "Learn how to convert ASCII characters to binary numbers and test your knowledge with a quiz!",
+                page1: {
+                    title: "What is ASCII?",
+                    text: "ASCII stands for 'American Standard Code for Information Interchange'. It is a character encoding that represents numbers, letters, and symbols through numerical values. Each letter and symbol has a unique number that can be converted to binary form."
+                },
+                page2: {
+                    title: "How to Convert ASCII to Binary?",
+                    text: "Each character in the ASCII character set has an associated decimal value. To convert this value to binary, you repeatedly divide the number by 2 and record the remainders. Finally, you read the remainders from bottom to top to get the binary number.",
+                    example: "Example: Convert 'A' to binary",
+                    binaryResult: "When we read the remainders from bottom to top, we get: 01000001"
+                },
+                page3: {
+                    title: "ASCII Table",
+                    text: "Here is an ASCII table showing the characters, their decimal values, and the corresponding binary values:",
+                    symbol: "Symbol",
+                    decimal: "Decimal Value",
+                    binary: "Binary Value"
+                },
+                page4: {
+                    title: "Understanding Binary Numbers",
+                    text: "In binary, only two digits are used: 0 and 1. Each of these digits is called a 'bit'. A group of 8 bits forms a 'byte', which typically represents one character. In the ASCII character set, one byte is used to represent one character."
+                },
+                page5: {
+                    title: "Quiz: Convert ASCII to Binary",
+                    question: "What is the binary representation of the letter 'B'?"
+                },
+                page6: {
+                    title: "ASCII Values for Numbers",
+                    text: "ASCII also assigns values to numbers. For example, the number '1' has the ASCII value of 49. This value is represented in binary as 00110001."
+                },
+                page7: {
+                    title: "Extended ASCII Character Set",
+                    text: "The extended ASCII character set uses 8 bits to represent characters beyond the 128 standard characters. This includes accented characters, special symbols, and many others.",
+                    extendedExample: "For example, the letter 'é' has the extended ASCII value of 233, which is represented in binary as 11101001."
+                },
+                page8: {
+                    title: "Conclusion",
+                    text: "You have now learned the basics of binary conversion and the ASCII character set. Keep practicing converting characters to binary and try converting other characters and numbers!"
+                },
+                page9: {
+                    title: "Choose the Number of Bits",
+                    text: "Choose how many bits you'd like to use to represent a character. By default, we use 8 bits (1 byte) for each character. With more bits, more characters or symbols can be represented."
+                },
+                page10: {
+                    title: "Explanation of Bit Sizes",
+                    text: "With 8 bits, one byte is used to represent a character, which is the standard for ASCII. With more bits, you can represent larger numbers and more characters, but the representation may become more complex."
+                },
+                page11: {
+                    title: "Conclusion",
+                    text: "Now you also know how different bit sizes can affect the representation of characters and numbers. Keep practicing understanding which bit size to choose for different applications!"
+                }
+            },
+            nl: {
+                title: "Leer Binaire Conversie",
+                description: "Leer hoe je ASCII-tekens naar binaire getallen converteert en test je kennis met een quiz!",
+                page1: {
+                    title: "Wat is ASCII?",
+                    text: "ASCII staat voor 'American Standard Code for Information Interchange'. Het is een tekencodering die getallen, letters en symbolen weergeeft via numerieke waarden. Elk teken heeft een unieke waarde die naar binaire vorm kan worden omgezet."
+                },
+                page2: {
+                    title: "Hoe converteer je ASCII naar Binair?",
+                    text: "Elk teken in de ASCII-tekenset heeft een bijbehorend decimaal getal. Om deze waarde naar binair om te zetten, deel je het getal herhaaldelijk door 2 en noteer je de restwaarden. Uiteindelijk lees je de restwaarden van onder naar boven om het binaire getal te krijgen.",
+                    example: "Voorbeeld: Zet 'A' om naar binair",
+                    binaryResult: "Wanneer we de restwaarden van onder naar boven lezen, krijgen we: 01000001"
+                },
+                page3: {
+                    title: "ASCII Tabel",
+                    text: "Hier is een ASCII-tabel die de tekens, hun decimale waarden en de overeenkomstige binaire waarden toont:",
+                    symbol: "Symbool",
+                    decimal: "Decimale Waarde",
+                    binary: "Binaire Waarde"
+                },
+                page4: {
+                    title: "Begrijp Binaire Getallen",
+                    text: "In binair worden slechts twee cijfers gebruikt: 0 en 1. Elk van deze cijfers wordt een 'bit' genoemd. Een groep van 8 bits vormt een 'byte', dat meestal één teken vertegenwoordigt. In de ASCII-tekenset wordt één byte gebruikt om één teken voor te stellen."
+                },
+                page5: {
+                    title: "Quiz: Converteer ASCII naar Binair",
+                    question: "Wat is de binaire representatie van de letter 'B'?"
+                },
+                page6: {
+                    title: "ASCII-waarden voor Getallen",
+                    text: "ASCII heeft ook waarden toegewezen aan getallen. Bijvoorbeeld, het getal '1' heeft de ASCII-waarde van 49. Deze waarde wordt in binair weergegeven als 00110001."
+                },
+                page7: {
+                    title: "Uitgebreide ASCII-tekenset",
+                    text: "De uitgebreide ASCII-tekenset gebruikt 8 bits om tekens weer te geven die verder gaan dan de 128 standaardtekens. Dit omvat geaccentueerde tekens, speciale symbolen en vele andere.",
+                    extendedExample: "Bijvoorbeeld, de letter 'é' heeft de uitgebreide ASCII-waarde van 233, die in binair wordt weergegeven als 11101001."
+                },
+                page8: {
+                    title: "Conclusie",
+                    text: "Je hebt nu de basisprincipes van binaire conversie en de ASCII-tekenset geleerd. Blijf oefenen met het omzetten van tekens naar binair en probeer andere tekens en getallen om te zetten!"
+                },
+                page9: {
+                    title: "Kies het Aantal Bits",
+                    text: "Kies hoeveel bits je wilt gebruiken om een teken weer te geven. Standaard gebruiken we 8 bits (1 byte) voor elk teken. Met meer bits kunnen meer tekens of symbolen worden weergegeven."
+                },
+                page10: {
+                    title: "Uitleg van Bitgroottes",
+                    text: "Met 8 bits wordt een byte gebruikt om een teken weer te geven, wat de standaard is voor ASCII. Met meer bits kun je grotere getallen en meer tekens weergeven, maar de representatie kan ingewikkelder worden."
+                },
+                page11: {
+                    title: "Conclusie",
+                    text: "Nu weet je ook hoe verschillende bitgroottes de weergave van tekens en getallen kunnen beïnvloeden. Blijf oefenen met het begrijpen van welke bitgrootte je moet kiezen voor verschillende toepassingen!"
+                }
+            },
+            pt: {
+                title: "Aprenda Conversão Binária",
+                description: "Aprenda a converter caracteres ASCII em números binários e teste seu conhecimento com um quiz!",
+                page1: {
+                    title: "O que é ASCII?",
+                    text: "ASCII significa 'American Standard Code for Information Interchange'. É uma codificação de caracteres que representa números, letras e símbolos através de valores numéricos. Cada letra e símbolo tem um número único que pode ser convertido em forma binária."
+                },
+                page2: {
+                    title: "Como Converter ASCII para Binário?",
+                    text: "Cada caractere no conjunto de caracteres ASCII tem um valor decimal associado. Para converter esse valor em binário, você divide repetidamente o número por 2 e registra os restos. Finalmente, você lê os restos de baixo para cima para obter o número binário.",
+                    example: "Exemplo: Converter 'A' para binário",
+                    binaryResult: "Quando lemos os restos de baixo para cima, obtemos: 01000001"
+                },
+                page3: {
+                    title: "Tabela ASCII",
+                    text: "Aqui está uma tabela ASCII mostrando os caracteres, seus valores decimais e os valores binários correspondentes:",
+                    symbol: "Símbolo",
+                    decimal: "Valor Decimal",
+                    binary: "Valor Binário"
+                },
+                page4: {
+                    title: "Entendendo Números Binários",
+                    text: "Em binário, apenas dois dígitos são usados: 0 e 1. Cada um desses dígitos é chamado de 'bit'. Um grupo de 8 bits forma um 'byte', que normalmente representa um caractere. No conjunto de caracteres ASCII, um byte é usado para representar um caractere."
+                },
+                page5: {
+                    title: "Quiz: Converta ASCII para Binário",
+                    question: "Qual é a representação binária da letra 'B'?"
+                },
+                page6: {
+                    title: "Valores ASCII para Números",
+                    text: "ASCII também atribui valores aos números. Por exemplo, o número '1' tem o valor ASCII de 49. Esse valor é representado em binário como 00110001."
+                },
+                page7: {
+                    title: "Conjunto de Caracteres ASCII Estendido",
+                    text: "O conjunto de caracteres ASCII estendido usa 8 bits para representar caracteres além dos 128 caracteres padrão. Isso inclui caracteres acentuados, símbolos especiais e muitos outros.",
+                    extendedExample: "Por exemplo, a letra 'é' tem o valor ASCII estendido de 233, que é representado em binário como 11101001."
+                },
+                page8: {
+                    title: "Conclusão",
+                    text: "Agora você aprendeu os fundamentos da conversão binária e do conjunto de caracteres ASCII. Continue praticando a conversão de caracteres para binário e tente converter outros caracteres e números!"
+                },
+                page9: {
+                    title: "Escolha o Número de Bits",
+                    text: "Escolha quantos bits você gostaria de usar para representar um caractere. Por padrão, usamos 8 bits (1 byte) para cada caractere. Com mais bits, mais caracteres ou símbolos podem ser representados."
+                },
+                page10: {
+                    title: "Explicação dos Tamanhos de Bits",
+                    text: "Com 8 bits, um byte é usado para representar um caractere, que é o padrão para ASCII. Com mais bits, você pode representar números maiores e mais caracteres, mas a representação pode se tornar mais complexa."
+                },
+                page11: {
+                    title: "Conclusão",
+                    text: "Agora você também sabe como diferentes tamanhos de bits podem afetar a representação de caracteres e números. Continue praticando para entender qual tamanho de bit escolher para diferentes aplicações!"
+                }
+            },
+            fr: {
+                title: "Apprendre la Conversion Binaire",
+                description: "Apprenez à convertir des caractères ASCII en nombres binaires et testez vos connaissances avec un quiz!",
+                page1: {
+                    title: "Qu'est-ce que l'ASCII?",
+                    text: "ASCII signifie 'American Standard Code for Information Interchange'. C'est un encodage de caractères qui représente des chiffres, des lettres et des symboles par des valeurs numériques. Chaque lettre et symbole a un numéro unique qui peut être converti en forme binaire."
+                },
+                page2: {
+                    title: "Comment Convertir ASCII en Binaire?",
+                    text: "Chaque caractère dans le jeu de caractères ASCII a une valeur décimale associée. Pour convertir cette valeur en binaire, vous divisez à plusieurs reprises le nombre par 2 et enregistrez les restes. Enfin, vous lisez les restes de bas en haut pour obtenir le nombre binaire.",
+                    example: "Exemple: Convertir 'A' en binaire",
+                    binaryResult: "Lorsque nous lisons les restes de bas en haut, nous obtenons: 01000001"
+                },
+                page3: {
+                    title: "Table ASCII",
+                    text: "Voici une table ASCII montrant les caractères, leurs valeurs décimales et les valeurs binaires correspondantes:",
+                    symbol: "Symbole",
+                    decimal: "Valeur Décimale",
+                    binary: "Valeur Binaire"
+                },
+                page4: {
+                    title: "Comprendre les Nombres Binaires",
+                    text: "En binaire, seuls deux chiffres sont utilisés: 0 et 1. Chacun de ces chiffres est appelé un 'bit'. Un groupe de 8 bits forme un 'octet', qui représente généralement un caractère. Dans le jeu de caractères ASCII, un octet est utilisé pour représenter un caractère."
+                },
+                page5: {
+                    title: "Quiz: Convertir ASCII en Binaire",
+                    question: "Quelle est la représentation binaire de la lettre 'B'?"
+                },
+                page6: {
+                    title: "Valeurs ASCII pour les Nombres",
+                    text: "ASCII attribue également des valeurs aux chiffres. Par exemple, le chiffre '1' a la valeur ASCII de 49. Cette valeur est représentée en binaire comme 00110001."
+                },
+                page7: {
+                    title: "Jeu de Caractères ASCII Étendu",
+                    text: "Le jeu de caractères ASCII étendu utilise 8 bits pour représenter des caractères au-delà des 128 caractères standard. Cela inclut des caractères accentués, des symboles spéciaux et bien d'autres.",
+                    extendedExample: "Par exemple, la lettre 'é' a la valeur ASCII étendue de 233, qui est représentée en binaire comme 11101001."
+                },
+                page8: {
+                    title: "Conclusion",
+                    text: "Vous avez maintenant appris les bases de la conversion binaire et du jeu de caractères ASCII. Continuez à pratiquer la conversion de caractères en binaire et essayez de convertir d'autres caractères et chiffres!"
+                },
+                page9: {
+                    title: "Choisissez le Nombre de Bits",
+                    text: "Choisissez combien de bits vous souhaitez utiliser pour représenter un caractère. Par défaut, nous utilisons 8 bits (1 octet) pour chaque caractère. Avec plus de bits, plus de caractères ou de symboles peuvent être représentés."
+                },
+                page10: {
+                    title: "Explication des Tailles de Bits",
+                    text: "Avec 8 bits, un octet est utilisé pour représenter un caractère, ce qui est la norme pour ASCII. Avec plus de bits, vous pouvez représenter des nombres plus grands et plus de caractères, mais la représentation peut devenir plus complexe."
+                },
+                page11: {
+                    title: "Conclusion",
+                    text: "Vous savez maintenant comment différentes tailles de bits peuvent affecter la représentation des caractères et des chiffres. Continuez à pratiquer pour comprendre quelle taille de bit choisir pour différentes applications!"
+                }
+            },
+            es: {
+                title: "Aprender Conversión Binaria",
+                description: "¡Aprende a convertir caracteres ASCII a números binarios y pon a prueba tus conocimientos con un cuestionario!",
+                page1: {
+                    title: "¿Qué es ASCII?",
+                    text: "ASCII significa 'American Standard Code for Information Interchange'. Es una codificación de caracteres que representa números, letras y símbolos a través de valores numéricos. Cada letra y símbolo tiene un número único que puede convertirse en forma binaria."
+                },
+                page2: {
+                    title: "¿Cómo Convertir ASCII a Binario?",
+                    text: "Cada carácter en el conjunto de caracteres ASCII tiene un valor decimal asociado. Para convertir este valor a binario, divides repetidamente el número por 2 y registras los restos. Finalmente, lees los restos de abajo hacia arriba para obtener el número binario.",
+                    example: "Ejemplo: Convertir 'A' a binario",
+                    binaryResult: "Cuando leemos los restos de abajo hacia arriba, obtenemos: 01000001"
+                },
+                page3: {
+                    title: "Tabla ASCII",
+                    text: "Aquí hay una tabla ASCII que muestra los caracteres, sus valores decimales y los valores binarios correspondientes:",
+                    symbol: "Símbolo",
+                    decimal: "Valor Decimal",
+                    binary: "Valor Binario"
+                },
+                page4: {
+                    title: "Entender los Números Binarios",
+                    text: "En binario, solo se usan dos dígitos: 0 y 1. Cada uno de estos dígitos se llama 'bit'. Un grupo de 8 bits forma un 'byte', que generalmente representa un carácter. En el conjunto de caracteres ASCII, se usa un byte para representar un carácter."
+                },
+                page5: {
+                    title: "Cuestionario: Convertir ASCII a Binario",
+                    question: "¿Cuál es la representación binaria de la letra 'B'?"
+                },
+                page6: {
+                    title: "Valores ASCII para Números",
+                    text: "ASCII también asigna valores a los números. Por ejemplo, el número '1' tiene el valor ASCII de 49. Este valor se representa en binario como 00110001."
+                },
+                page7: {
+                    title: "Conjunto de Caracteres ASCII Extendido",
+                    text: "El conjunto de caracteres ASCII extendido usa 8 bits para representar caracteres más allá de los 128 caracteres estándar. Esto incluye caracteres acentuados, símbolos especiales y muchos otros.",
+                    extendedExample: "Por ejemplo, la letra 'é' tiene el valor ASCII extendido de 233, que se representa en binario como 11101001."
+                },
+                page8: {
+                    title: "Conclusión",
+                    text: "Ahora has aprendido los conceptos básicos de la conversión binaria y el conjunto de caracteres ASCII. ¡Sigue practicando la conversión de caracteres a binario e intenta convertir otros caracteres y números!"
+                },
+                page9: {
+                    title: "Elige el Número de Bits",
+                    text: "Elige cuántos bits te gustaría usar para representar un carácter. Por defecto, usamos 8 bits (1 byte) para cada carácter. Con más bits, se pueden representar más caracteres o símbolos."
+                },
+                page10: {
+                    title: "Explicación de los Tamaños de Bits",
+                    text: "Con 8 bits, se usa un byte para representar un carácter, que es el estándar para ASCII. Con más bits, puedes representar números más grandes y más caracteres, pero la representación puede volverse más compleja."
+                },
+                page11: {
+                    title: "Conclusión",
+                    text: "Ahora también sabes cómo diferentes tamaños de bits pueden afectar la representación de caracteres y números. ¡Sigue practicando para entender qué tamaño de bit elegir para diferentes aplicaciones!"
+                }
+            }
+        };
+
+        let currentBitSize = 8;
+
+        function setLanguage(language) {
+            const languageContent = languageData[language];
+            document.getElementById("title").textContent = languageContent.title;
+            document.getElementById("description").textContent = languageContent.description;
+            document.getElementById("page1-title").textContent = languageContent.page1.title;
+            document.getElementById("page1-text").textContent = languageContent.page1.text;
+            document.getElementById("page2-title").textContent = languageContent.page2.title;
+            document.getElementById("page2-text").textContent = languageContent.page2.text;
+            document.getElementById("example-title").textContent = languageContent.page2.example;
+            document.getElementById("binary-result").textContent = languageContent.page2.binaryResult;
+            document.getElementById("symbol").textContent = languageContent.page3.symbol;
+            document.getElementById("decimal").textContent = languageContent.page3.decimal;
+            document.getElementById("binary").textContent = languageContent.page3.binary;
+            document.getElementById("page3-desc").textContent = languageContent.page3.text;
+            document.getElementById("page3-title").textContent = languageContent.page3.title;
+            document.getElementById("page4-title").textContent = languageContent.page4.title;
+            document.getElementById("page4-text").textContent = languageContent.page4.text;
+            document.getElementById("quiz-title").textContent = languageContent.page5.title;
+            document.getElementById("quiz-question").textContent = languageContent.page5.question;
+            document.getElementById("page6-title").textContent = languageContent.page6.title;
+            document.getElementById("page6-text").textContent = languageContent.page6.text;
+            document.getElementById("page7-title").textContent = languageContent.page7.title;
+            document.getElementById("page7-text").textContent = languageContent.page7.text;
+            document.getElementById("extended-example").textContent = languageContent.page7.extendedExample;
+            document.getElementById("page8-title").textContent = languageContent.page8.title;
+            document.getElementById("page8-text").textContent = languageContent.page8.text;
+            document.getElementById("page9-title").textContent = languageContent.page9.title;
+            document.getElementById("page9-text").textContent = languageContent.page9.text;
+            document.getElementById("page10-title").textContent = languageContent.page10.title;
+            document.getElementById("page10-text").textContent = languageContent.page10.text;
+            document.getElementById("page11-title").textContent = languageContent.page11.title;
+            document.getElementById("page11-text").textContent = languageContent.page11.text;
+        }
+
+        function nextPage(page) {
+            document.getElementById("page" + currentPage).style.display = "none";
+            currentPage = page;
+            document.getElementById("page" + currentPage).style.display = "block";
+        }
+
+        function finishTutorial() {
+            alert("Tutorial abgeschlossen!");
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("quizAnswer").value;
+            if (userAnswer === "01000010") {
+                document.getElementById("quizFeedback").textContent = "Richtig!";
+            } else {
+                document.getElementById("quizFeedback").textContent = "Leider falsch. Versuche es nochmal!";
+            }
+        }
+
+        function updateBitSize() {
+            const selectedBitSize = parseInt(document.getElementById("bitSize").value);
+            currentBitSize = selectedBitSize;
+
+            let explanation = `Bei ${currentBitSize} Bits können ${Math.pow(2, currentBitSize)} mögliche Werte
+                dargestellt werden.`;
+
+            document.getElementById("bitExplanation").textContent = explanation;
+        }
+
+        // Start tutorial in German by default
+        setLanguage("de");
+    </script>
+
+</body>
+
+</html>
