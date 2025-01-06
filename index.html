@@ -539,10 +539,10 @@
                 <h2 id="quiz-title">Quiz: Wandle ASCII in Binär um</h2>
                 <p id="quiz-question">Was ist die Binärdarstellung des Buchstabens "B"?</p>
                 <input type="text" id="quizAnswer" placeholder="Gib deine Antwort ein">
+                <button onclick="nextPage(6)" id="next-btn">Weiter</button>
                 <button onclick="checkAnswer()" id="quiz-btn">Antwort überprüfen</button>
                 <div id="quizFeedback"></div>
             </section>
-            <button onclick="nextPage(6)" style="display: none;" id="nextQuiz">Weiter</button>
         </div>
         <div id="page6" style="display: none;">
             <section class="tutorial">
@@ -573,7 +573,7 @@
                     Übe
                     weiter, Zeichen in Binärzahlen umzuwandeln, und versuche, andere Zeichen und Zahlen zu konvertieren!
                 </p>
-                <button onclick="finishTutorial(9)">Tutorial abschließen</button>
+                <button onclick="nextPage(9)">Weiter</button>
             </section>
         </div>
         <div id="page9" style="display: none;">
